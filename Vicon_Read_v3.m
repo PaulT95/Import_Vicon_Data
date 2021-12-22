@@ -15,17 +15,33 @@ maxArgs=6;
 nargoutchk(minArgs,maxArgs);
 
 disp("You requested " + nargout + " outputs.")
+w = waitbar(0,'Please wait...','Name','Importing Data');
 
+varargout = cell(nargout,1);
 %% Define Opts for reading the file
 % clear 
 % addpath(genpath(cd));
 % file = uipickfiles();
+[~,~,ext] = fileparts(FileName);
 
 opts = delimitedTextImportOptions("Encoding", "UTF-8");
 
 % Specify range and delimiter
 opts.DataLines = [1, Inf];
-opts.Delimiter = "\t";
+
+switch ext
+    case ".txt"
+        opts.Delimiter = "\t";
+    case ".csv"
+        opts.Delimiter = ",";
+    otherwise
+        disp("File format not supported!")
+        waitbar(1,w,"ERROR, File not supported!");
+        pause(0.5);
+        close(w);        
+        return 
+end
+
 opts.ExtraColumnsRule = 'addvars';
 opts.PreserveVariableNames = 0;
 
@@ -62,33 +78,7 @@ Ref_Dev = find(strcmp('Devices',Data(:,1)));
 Ref_MOut = find(strcmp('Model Outputs',Data(:,1)));
 Ref_Mrk = find(strcmp('Trajectories',Data(:,1)));
 
-%% Forces data
-Ref_Force = find(contains(Data(Ref_Dev+3,:),'Fx'));
-
-if sum(contains(Data(Ref_Dev+3,:),'Fx'))>1
-       
-    for num = 1:sum(contains(Data(Ref_Dev+3,:),'Fx'))
-        
-        Force.('FP'+string(num))(:,1) = str2double(Data((Ref_Dev+5):Ref_MOut-1,Ref_Force(num)));
-        Force.('FP'+string(num))(:,2) = str2double(Data((Ref_Dev+5):Ref_MOut-1,Ref_Force(num)+1));
-        Force.('FP'+string(num))(:,3) = str2double(Data((Ref_Dev+5):Ref_MOut-1,Ref_Force(num)+2));
-        
-    end 
-
-end
-
-if sum(contains(Data(Ref_Dev+3,:),'Fx'))==1 
-
-    Force.Fx = str2double(Data((Ref_Dev+5):Ref_MOut-1,Ref_Force(1)));
-    Force.Fy = str2double(Data((Ref_Dev+5):Ref_MOut-1,Ref_Force(1)+1));
-    Force.Fz = str2double(Data((Ref_Dev+5):Ref_MOut-1,Ref_Force(1)+2));
-    
-end
-
-% check if the Force values are empty, if it's true delete the struct
-% if any( structfun(@isempty, Force)) == 1
-%     clear Force;
-% end
+waitbar(0.2,w,'Importing Analog(s)...');
 
 %% Analog Data and Labels
 if (isempty(Ref_Dev) == false)
@@ -111,9 +101,42 @@ if (isempty(Ref_Dev) == false)
         end
     end
     
+    varargout{3} = Analog;
+
+else 
+    varargout{3} = [];
 end
 
+waitbar(0.4,w,'Importing Force(s)...');
+%% Forces data in a separate var/struct than Analog
+Ref_Force = find(contains(Data(Ref_Dev+3,:),'Fx'));
 
+%if there are more Fx in the file means there were more Force Plats
+if sum(contains(Data(Ref_Dev+3,:),'Fx'))>1
+    
+    for num = 1:sum(contains(Data(Ref_Dev+3,:),'Fx'))
+        
+        Force.('FP'+string(num))(:,1) = str2double(Data((Ref_Dev+5):Ref_MOut-1,Ref_Force(num)));
+        Force.('FP'+string(num))(:,2) = str2double(Data((Ref_Dev+5):Ref_MOut-1,Ref_Force(num)+1));
+        Force.('FP'+string(num))(:,3) = str2double(Data((Ref_Dev+5):Ref_MOut-1,Ref_Force(num)+2));
+        
+    end
+    
+end
+
+if sum(contains(Data(Ref_Dev+3,:),'Fx'))==1
+    
+    Force.Fx = str2double(Data((Ref_Dev+5):Ref_MOut-1,Ref_Force(1)));
+    Force.Fy = str2double(Data((Ref_Dev+5):Ref_MOut-1,Ref_Force(1)+1));
+    Force.Fz = str2double(Data((Ref_Dev+5):Ref_MOut-1,Ref_Force(1)+2));
+    
+end
+
+% check if the Force values are empty, if it's true delete the struct
+% if any( structfun(@isempty, Force)) == 1
+%     clear Force;
+% end
+waitbar(0.6,w,'Importing Marker(s)...');
 %% Markers data and labels
 if (isempty(Ref_Mrk) == false) %just check, if there are not marker data, skip
     
@@ -137,9 +160,14 @@ if (isempty(Ref_Mrk) == false) %just check, if there are not marker data, skip
              j = j+1;
 
     end
-        
+    
+    varargout{4} = Markers;
+    
+else 
+    varargout{4} = [];
 end
 
+waitbar(0.8,w,'Importing Model Output(s)...');
 %% ModelOutputs data and Labels
 if (isempty(Ref_MOut) == false) %just check, if there are not ModelOutputs data, skip
     
@@ -176,16 +204,26 @@ if (isempty(Ref_MOut) == false) %just check, if there are not ModelOutputs data,
     end
     
     Labels.ModelOutputs =  Labels.ModelOutputs(~cellfun('isempty',Labels.ModelOutputs)); %<-- elimina celle vuote
-    Labels.ModelOutputs = unique(Labels.ModelOutputs); 
+    Labels.ModelOutputs = unique(Labels.ModelOutputs);   
     
-    %% outputs
-    varargout = cell(nargout,1);
-    
-    varargout{1} = Frequency;
-    varargout{2} = Labels;
-    varargout{3} = Analog;
-    varargout{4} = Markers;
     varargout{5} = ModelOutputs;
+else 
+    varargout{5} = [];
+end
+
+waitbar(1,w,'Finishing');
+pause(0.5)
+close(w)
+%% Outputs
+
+% 
+% If you don't even have any Frequency or Label it means it was an empty
+% or non Vicon file
+varargout{1} = Frequency;
+varargout{2} = Labels;
+
+if (isempty(Ref_Force))
+    varargout{6} = [];
+else
     varargout{6} = Force;
-    
 end
