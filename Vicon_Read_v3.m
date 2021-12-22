@@ -8,6 +8,8 @@ function [ varargout ] = Vicon_Read_v3(FileName)
 % 
 %  You can even ask less outputs 
 %  EXAMPLE: [Frequency, Labels, Analog, Markers] = Vicon_Read_v3(FileName);
+%  
+%  Author: Paolo Tecchio (Paolo.Tecchio@rub.de)
 
 %% check arguments
 minArgs=1;  
@@ -58,10 +60,8 @@ sheet and not until the end of analog, the same for model outputs.
 That's why there are different if, because it depends of the different data
 exported. This permits the script to work always, also with just analog
 data.
-ATTENTION WHEN FORCE IS EXPORTED, BECAUSE LABELS HAVE SAME NAME AND THUS
-DATA IN ANALOG WILL BE OVERWRITTEN! 
 
-AVOID use this char '-' for labels, because it returns error
+AVOID to  use this char '-' for labels, because it returns error
 %}
 
 % Devices = Analog
