@@ -81,7 +81,7 @@ Ref_Mrk = find(strcmp('Trajectories',Data(:,1)));
 waitbar(0.2,w,'Importing Analog(s)...');
 
 %% Analog Data and Labels
-if (isempty(Ref_Dev) == false)
+if (isempty(Ref_Dev) == false && nargout > 2)
     
     Labels.Analog = Data(Ref_Dev+3,(3:end)); % <-- Ref, sempre colonna 3 xkè prime due FRAME e SUBFRAME
     Labels.Analog = Labels.Analog(~cellfun('isempty',Labels.Analog)); %<-- elimina celle vuote
@@ -138,7 +138,7 @@ end
 % end
 waitbar(0.6,w,'Importing Marker(s)...');
 %% Markers data and labels
-if (isempty(Ref_Mrk) == false) %just check, if there are not marker data, skip
+if (isempty(Ref_Mrk) == false && nargout > 3) %just check, if there are not marker data, skip
     
     Labels.Markers = Data(Ref_Mrk+2,:); 
     Labels.Markers = Labels.Markers(~cellfun('isempty',Labels.Markers)); %<-- elimina celle vuote
@@ -169,7 +169,7 @@ end
 
 waitbar(0.8,w,'Importing Model Output(s)...');
 %% ModelOutputs data and Labels
-if (isempty(Ref_MOut) == false) %just check, if there are not ModelOutputs data, skip
+if (isempty(Ref_MOut) == false && nargout > 4) %just check, if there are not ModelOutputs data, skip
     
     Labels.ModelOutputs = Data(Ref_MOut+2,(3:end)); %<-- +2 xkè a +3 ci sono x,y,z,tx etc.;
     Labels.ModelOutputs = regexprep(Labels.ModelOutputs,[Subject ':'],'');
