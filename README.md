@@ -11,4 +11,5 @@ It imports the data in different structs with the name saved in Nexus for each c
 - Force (If there are more force platforms there will be more matrix like FP1, FP2, FPx with X,Y,Z)
 
 
+Tested and work on both txt and csv exported from Vicon Nexus 2.6, 2.7, and 2.12 
 PS: sorry if the description is not that good, or even a couple of comments in italian but I had to write quickly notes while I was programming ;)  
