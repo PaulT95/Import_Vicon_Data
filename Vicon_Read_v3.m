@@ -1,7 +1,7 @@
 function [ varargout ] = Vicon_Read_v3(FileName)
 
-% This code permits to read and tabulate VICON.txt data properly
-% VICON_READ_V3 Import data from text file (Txt) 
+% This code permits to read and tabulate VICON.txt/csv data properly
+% VICON_READ_V3 Import data from text file (Txt/Csv) 
 %  [Frequency,Labels,Analog,Markers,ModelOutPut,Force] = Vicon_Read_v3(FileName) reads data from text file
 %  FileName for the default selection include path.  Returns as different Structs with the same name used in Vicon.
 %  Columns are (X,Y,Z) data 
@@ -111,14 +111,25 @@ waitbar(0.4,w,'Importing Force(s)...');
 %% Forces data in a separate var/struct than Analog
 Ref_Force = find(contains(Data(Ref_Dev+3,:),'Fx'));
 
+% quick check to select which is the end 
+if (isempty(Ref_MOut) == false)
+    Ref_Cut_Force = Ref_MOut;
+    
+elseif (isempty(Ref_MOut) == true && isempty(Ref_Mrk)== false )
+    Ref_Cut_Force = Ref_Mrk;
+    
+elseif (isempty(Ref_MOut) == true && isempty(Ref_Mrk)== true )
+    Ref_Cut_Force = numel( Data(1:end,1) ); %end of the first column
+end
+
 %if there are more Fx in the file means there were more Force Plats
 if sum(contains(Data(Ref_Dev+3,:),'Fx'))>1
     
     for num = 1:sum(contains(Data(Ref_Dev+3,:),'Fx'))
         
-        Force.('FP'+string(num))(:,1) = str2double(Data((Ref_Dev+5):Ref_MOut-1,Ref_Force(num)));
-        Force.('FP'+string(num))(:,2) = str2double(Data((Ref_Dev+5):Ref_MOut-1,Ref_Force(num)+1));
-        Force.('FP'+string(num))(:,3) = str2double(Data((Ref_Dev+5):Ref_MOut-1,Ref_Force(num)+2));
+        Force.('FP'+string(num))(:,1) = str2double(Data((Ref_Dev+5):Ref_Cut_Force-1,Ref_Force(num)));
+        Force.('FP'+string(num))(:,2) = str2double(Data((Ref_Dev+5):Ref_Cut_Force-1,Ref_Force(num)+1));
+        Force.('FP'+string(num))(:,3) = str2double(Data((Ref_Dev+5):Ref_Cut_Force-1,Ref_Force(num)+2));
         
     end
     
@@ -126,9 +137,9 @@ end
 
 if sum(contains(Data(Ref_Dev+3,:),'Fx'))==1
     
-    Force.Fx = str2double(Data((Ref_Dev+5):Ref_MOut-1,Ref_Force(1)));
-    Force.Fy = str2double(Data((Ref_Dev+5):Ref_MOut-1,Ref_Force(1)+1));
-    Force.Fz = str2double(Data((Ref_Dev+5):Ref_MOut-1,Ref_Force(1)+2));
+    Force.Fx = str2double(Data((Ref_Dev+5):Ref_Cut_Force-1,Ref_Force(1)));
+    Force.Fy = str2double(Data((Ref_Dev+5):Ref_Cut_Force-1,Ref_Force(1)+1));
+    Force.Fz = str2double(Data((Ref_Dev+5):Ref_Cut_Force-1,Ref_Force(1)+2));
     
 end
 
