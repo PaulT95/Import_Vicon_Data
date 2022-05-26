@@ -1,7 +1,7 @@
 # Import_Vicon_Data
 ***** IMPORT VICON NEXUS DATA in MATLAB *****
 This simple function permits to import properly all data stored in a txt or csv file exported with Vicon Nexus
-It imports the data in different structs with the name saved in Nexus for each channel/marker like:
+It imports the data in different structs with the name saved in Nexus for each channel/marker:
 
 - Frequencies (will contain up to 3 variables with the frequencies of Analog data, Marker and Model Outputs)
 - Labels (of the analog,markers and model outputs for using in a for/do while cycle)
