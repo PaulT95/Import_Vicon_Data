@@ -13,3 +13,5 @@ It imports the data in different structs with the name saved in Nexus for each c
 
 Test and work on both txt and csv exported from Vicon Nexus 2.6, 2.7, and 2.12 
 PS: sorry if the description is not that good, or even a couple of comments in italian but I had to write quick notes while I was programming ;)  
+
+BE CAREFUL IF YOU EXPORT TRAJECTORIES or other additional parameters as they will affect the reference locations
