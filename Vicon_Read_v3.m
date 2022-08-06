@@ -9,6 +9,8 @@ function [ varargout ] = Vicon_Read_v3(FileName)
 %  You can even ask less outputs 
 %  EXAMPLE: [Frequency, Labels, Analog, Markers] = Vicon_Read_v3(FileName);
 %  
+%  If your label is just a number or it contains invalid chars for a
+%  fieldname in the struct, it will saved as "Var_" + "name of field
 %  Author: Paolo Tecchio (Paolo.Tecchio@rub.de)
 
 %% check arguments
@@ -88,6 +90,10 @@ if (isempty(Ref_Dev) == false && nargout > 2)
     
     for k=1:length(Labels.Analog)
         
+        if(~isvarname(Labels.Analog{k})) %check whether the field name is not a valid for the struch
+           Labels.Analog{k} = "Var_" + Labels.Analog{k}; %add "Var_" so fix the problem of field name
+        end
+
         if (isempty(Ref_MOut) == false)
             Analog.(Labels.Analog{k}) = str2double(Data((Ref_Dev+5):Ref_MOut-1,(2+k)));
         end
@@ -160,15 +166,19 @@ if (isempty(Ref_Mrk) == false && nargout > 3) %just check, if there are not mark
     j = 1;      % <-- index for catching x,y,z
 
     for k=1:length(Labels.Markers)
+            
+        if(~isvarname(Labels.Markers{k})) %check whether the field name is not a valid for the struch
+            Labels.Markers{k} = "Var_" + Labels.Markers{k}; %add "Var_" so fix the problem of field name
+        end
 
-             Markers.(Labels.Markers{k})(:,1) = str2double(Data((Ref_Mrk+5):end,(2+j)));    %X
-             j = j+1;
+        Markers.(Labels.Markers{k})(:,1) = str2double(Data((Ref_Mrk+5):end,(2+j)));    %X
+        j = j+1;
 
-             Markers.(Labels.Markers{k})(:,2) = str2double(Data((Ref_Mrk+5):end,(2+j)));    %Y
-             j = j+1;
+        Markers.(Labels.Markers{k})(:,2) = str2double(Data((Ref_Mrk+5):end,(2+j)));    %Y
+        j = j+1;
 
-             Markers.(Labels.Markers{k})(:,3) = str2double(Data((Ref_Mrk+5):end,(2+j)));    %Z
-             j = j+1;
+        Markers.(Labels.Markers{k})(:,3) = str2double(Data((Ref_Mrk+5):end,(2+j)));    %Z
+        j = j+1;
 
     end
     
