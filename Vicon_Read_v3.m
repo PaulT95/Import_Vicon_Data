@@ -155,6 +155,7 @@ end
 % end
 waitbar(0.6,w,'Importing Marker(s)...');
 %% Markers data and labels
+%Markers are always the last ones
 if (isempty(Ref_Mrk) == false && nargout > 3) %just check, if there are not marker data, skip
     
     Labels.Markers = Data(Ref_Mrk+2,:); 
@@ -162,7 +163,7 @@ if (isempty(Ref_Mrk) == false && nargout > 3) %just check, if there are not mark
     Labels.Markers = split(Labels.Markers,':');
     Subject = Labels.Markers(1,1,1);
     Labels.Markers = Labels.Markers(:,:,2);     %<-- elimina nome soggetto 
-
+    
     j = 1;      % <-- index for catching x,y,z
 
     for k=1:length(Labels.Markers)
@@ -206,7 +207,7 @@ if (isempty(Ref_MOut) == false && nargout > 4) %just check, if there are not Mod
         if (k==length(MO_NoEmpty))
             
             inizio = find(strcmpi(MO_NoEmpty{k},Labels.ModelOutputs));
-            ModelOutputs.(MO_NoEmpty{k}) = str2double(Data(Ref_MOut+5:end,inizio:inizio+8));
+            ModelOutputs.(MO_NoEmpty{k}) = str2double(Data(Ref_MOut+5:Ref_Mrk-1,inizio:inizio+8));
             
         else
             
@@ -218,7 +219,7 @@ if (isempty(Ref_MOut) == false && nargout > 4) %just check, if there are not Mod
                 fine(end) = [];
             end
             
-            ModelOutputs.(MO_NoEmpty{k}) = str2double(Data(Ref_MOut+5:end,inizio:fine));
+            ModelOutputs.(MO_NoEmpty{k}) = str2double(Data(Ref_MOut+5:Ref_Mrk-1,inizio:fine));
             
         end
         
