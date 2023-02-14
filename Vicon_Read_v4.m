@@ -125,13 +125,13 @@ if (isempty(Ref_Mrk) == false && nargout > 3) %just check, if there are not mark
     Subject = Labels.Markers(1,1,1);
     Labels.Markers = Labels.Markers(:,:,2);     %<-- delete subject name
 
-    for k=1:length(Labels.Markers)-1
+    for k=1:length(Labels.Markers)
 
         if(~isvarname(Labels.Markers{k})) %check whether the field name is not a valid for the struct
             Labels.Markers{k} = "Var_" + Labels.Markers{k}; %add "Var_" so fix the problem of field name
         end
         %(1:3) because x,y,z
-        Markers.(Labels.Markers{k})(:,1:3) = str2double(Data((Ref_Mrk+5):end,(position(k) : position(k+1)-1)));  
+        Markers.(Labels.Markers{k})(:,1:3) = str2double(Data((Ref_Mrk+5):end,(position(k) : position(k)+2)));  
 
     end
 
@@ -153,15 +153,15 @@ if (isempty(Ref_MOut) == false && nargout > 4) %just check, if there are not Mod
     position = find(~cellfun(@isempty,Labels.ModelOutputs));
     Labels.ModelOutputs =  Labels.ModelOutputs(~cellfun('isempty',Labels.ModelOutputs));
     Labels.ModelOutputs = unique(Labels.ModelOutputs);
-% 
-%     MO_NoEmpty =  Labels.ModelOutputs(~cellfun('isempty',Labels.ModelOutputs)); 
-%     MO_NoEmpty = unique(MO_NoEmpty); %remove duplicates
 
+    for k = 1: length(Labels.ModelOutputs)
 
-    for k=1:length(Labels.ModelOutputs)-1
+        if k == length(Labels.ModelOutputs)           
 
-        ModelOutputs.(Labels.ModelOutputs{k}) = str2double(Data(Ref_MOut+5:Ref_Mrk-1,(position(k) : position(k+1)-1) )  );
-
+           ModelOutputs.(Labels.ModelOutputs{k}) = str2double(Data(Ref_MOut+5:Ref_Mrk-1,(position(k) : end) )  );
+        else
+           ModelOutputs.(Labels.ModelOutputs{k}) = str2double(Data(Ref_MOut+5:Ref_Mrk-1,(position(k) : position(k+1)-1) )  );
+        end
     end
 
     
