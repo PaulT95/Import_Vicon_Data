@@ -1,11 +1,11 @@
 # Import Vicon Nexus Data
 ***** IMPORT VICON NEXUS DATA in MATLAB or Python ******
-This simple function permits to import properly all data stored in a txt or csv file exported with Vicon Nexus
+This simple function permits to import properly all data stored in a txt or csv file exported with Vicon Nexus.
 It imports the data in different structs with the name saved in Nexus for each channel/marker:
 
 - Frequencies (will contain up to 3 variables with the frequencies of Analog data, Marker and Model Outputs)
-- Labels (of the analog, markers and model outputs for using in a for/do while cycle)
-- Analog (IMPORTANT! If you have more force platforms please ask also the Force output which is the last one. Look at the code why)
+- Labels (of the analog, markers and model outputs for using in a for/do while loop)
+- Analog
 - Markers (e.g. HEAD_Marker with 3 columns which corresponds to X,Y,Z)
 - Model Outputs
 
