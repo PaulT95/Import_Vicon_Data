@@ -99,11 +99,11 @@ def read_vicon_file(file_name):
         if 'Model Outputs' in ref_indices and ref_indices['Model Outputs'][0] > ref_indices['Trajectories'][0]:
             markers_end = ref_indices['Model Outputs'][0] - 1
         else:
-            markers_end = len(data) - 1
+            markers_end = len(data) #-1 not, because in a range it does not count the last element included
 
         for label in markers_labels:
             markers_data[label] = data[markers_start:markers_end,
-                                  markers_labels.index(label) + 2:markers_labels.index(label) + 5].astype(float)
+                                  markers_labels.index(label) + 2 : markers_labels.index(label) + 5].astype(float)
 
     ## Model output data processing
 
@@ -112,9 +112,9 @@ def read_vicon_file(file_name):
     if 'Model Outputs' in ref_indices:
         model_outputs_start = ref_indices['Model Outputs'][0] + 5
         if 'Trajectories' in ref_indices and ref_indices['Model Outputs'][0] < ref_indices['Trajectories'][0]:
-            model_outputs_end = ref_indices['Trajectories'][0] - 2  # Adjusted to -2
+            model_outputs_end = ref_indices['Trajectories'][0] - 1  # Adjusted to -2
         else:
-            model_outputs_end = len(data) - 1
+            model_outputs_end = len(data) #- 1, see above
 
         for label, pos in zip(model_outputs_labels, position):
             index = position.index(pos)  # Get the index of the current position
