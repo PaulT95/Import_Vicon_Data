@@ -11,7 +11,7 @@ function [ varargout ] = Vicon_Read_File(FileName)
 %  If your label is just a number or it contains invalid chars for a
 %  fieldname in the struct, it will saved as "Var_" + "name of field
 %  Author: Paolo Tecchio (Paolo.Tecchio@rub.de)
-%TO DO: fix the positions of the model outputs matrixes
+%TO DO: check with multiple platforms the analog output
 %% check arguments
 minArgs=1;  
 maxArgs=5;
@@ -79,7 +79,7 @@ Ref_Dev = find(strcmp('Devices',Data(:,1)));
 Ref_MOut = find(strcmp('Model Outputs',Data(:,1)));
 Ref_Mrk = find(strcmp('Trajectories',Data(:,1)));
 
-waitbar(0.2,w,'Importing Analog(s)...');
+waitbar(0.3,w,'Importing Analog(s)...');
 %% Analog Data and Labels
 if (isempty(Ref_Dev) == false && nargout > 2)
     
@@ -129,7 +129,7 @@ else
     varargout{3} = [];
 end
 
-waitbar(0.4,w,'Importing Marker(s)...');
+waitbar(0.6,w,'Importing Marker(s)...');
 
 %% Forces data in a separate var/struct than Analog
 % waitbar(0.4,w,'Importing Force(s)...');
@@ -199,7 +199,7 @@ else
     varargout{4} = [];
 end
 
-waitbar(0.8,w,'Importing Model Output(s)...');
+waitbar(0.9,w,'Importing Model Output(s)...');
 
 %% ModelOutputs data and Labels
 
@@ -209,7 +209,7 @@ if (isempty(Ref_MOut) == false && nargout > 4) %just check, if there are not Mod
     Labels.ModelOutputs = regexprep(Labels.ModelOutputs,[Subject ':'],'');
     position = find(~cellfun(@isempty,Labels.ModelOutputs));
     Labels.ModelOutputs =  Labels.ModelOutputs(~cellfun('isempty',Labels.ModelOutputs));
-    Labels.ModelOutputs = unique(Labels.ModelOutputs);
+    %Labels.ModelOutputs = unique(Labels.ModelOutputs);
 
     for k = 1: length(Labels.ModelOutputs)
 
