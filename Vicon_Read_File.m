@@ -11,7 +11,7 @@ function [ varargout ] = Vicon_Read_File(FileName)
 %  If your label is just a number or it contains invalid chars for a
 %  fieldname in the struct, it will saved as "Var_" + "name of field
 %  Author: Paolo Tecchio (Paolo.Tecchio@rub.de)
-%TO DO: check with multiple platforms the analog output
+%TO DO: fix the positions of the model outputs matrixes
 %% check arguments
 minArgs=1;  
 maxArgs=5;
