@@ -17,14 +17,14 @@ Tested and worked on both TXT and CSV exported from Vicon Nexus 2.6, 2.7, and 2.
 
 BE CAREFUL about the outputs you export from Vicon Nexus as they can affect the locations of the references in the program
 
-## How to Mention Us
+## How to Mention
 
-You can credit us by including the following text:
+You can credit my work by including the following text:
 
-"The library used is pubblicly available on GitHub: [Import Vicon Data](https://github.com/PaulT95/Import_Vicon_Data/)."
+"The library used is publicly available on GitHub: [Import Vicon Data](https://github.com/PaulT95/Import_Vicon_Data/)."
 
 ## Share with Us
 
-If you have an interesting story or a cool project using our library, feel free to share it with us. We'd be delighted to hear what you've achieved with our contribution!
+If you have an interesting story or a cool project using my library, feel free to share it with me. I'd be delighted to hear what you've achieved with my contribution!
 
 Thank you for choosing this library. Happy coding! 😄
