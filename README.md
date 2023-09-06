@@ -23,7 +23,7 @@ You can credit my work by including the following text:
 
 "The library used is publicly available on GitHub: [Import Vicon Data](https://github.com/PaulT95/Import_Vicon_Data/)."
 
-## Share with Us
+## Share with me
 
 If you have an interesting story or a cool project using my library, feel free to share it with me. I'd be delighted to hear what you've achieved with my contribution!
 
