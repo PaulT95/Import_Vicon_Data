@@ -1,7 +1,7 @@
 # Import Vicon Nexus Data
 ***** Import Vicon Nexus Data in MatLab and Python ******
 
-If you find this library helpful in your project, please consider mentioning us in your credits or sharing how you're using it. We'd love to hear your success stories! 😊
+If you find this library helpful in your project, please consider mentioning me in your credits or sharing how you're using it. I'd love to hear your success stories! 😊
 
 # How it works 
 This simple function permits to import properly all data stored in a txt or csv file exported with Vicon Nexus.
