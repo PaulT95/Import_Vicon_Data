@@ -21,7 +21,7 @@ BE CAREFUL about the outputs you export from Vicon Nexus as they can affect the 
 
 You can credit us by including the following text:
 
-"The library used is pubblicly available on GitHub: [link to the repository](https://github.com/PaulT95/Import_Vicon_Data/)]."
+"The library used is pubblicly available on GitHub: [Import Vicon Data](https://github.com/PaulT95/Import_Vicon_Data/)."
 
 ## Share with Us
 
