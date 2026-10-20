@@ -1,7 +1,6 @@
 # Import Vicon Nexus Data
-***** Import Vicon Nexus Data in MatLab and Python ******
 
-If you find this library helpful in your project, please consider mentioning me in your credits or sharing how you're using it. I'd love to hear your success stories! 😊
+Simple function (both matlab and python) to import Vicon Nexus data. The reason I made is that using [Btk/Mokka](https://biomechanist.net/mokka-btk-tutorial/), the marker data was affected compared to what it should have been. Maybe they fixed so far...so feel free to use this function.
 
 # How it works 
 This simple function permits to import properly all data stored in a txt or csv file exported with Vicon Nexus.
